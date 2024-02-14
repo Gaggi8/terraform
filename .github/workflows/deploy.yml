@@ -17,6 +17,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.7.3
+        nodejs_version: 20
        
 
     - name: Azure Login
