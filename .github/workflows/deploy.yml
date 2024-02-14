@@ -7,23 +7,21 @@ on:
 
 jobs:
   terraform:
-    env:
-        APPLICATION_CLIENT_ID: ${{ secrets.APPLICATION_CLIENT_ID  }}  
-        DIRECTORY_TENANT_ID: ${{ secrets.DIRECTORY_TENANT_ID  }} 
-        SECERET_ID: ${{  secrets.SECERET_ID  }}
-        SUBSCRIPTION_ID: ${{  secrets.SUBSCRIPTION_ID  }}
-
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v1
 
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
+
     - name: Azure Login
       run: |
-        az login --service-principal -u ${{ secrets.APPLICATION_CLIENT_ID }} -p ${{ secrets.SECERET_ID }} --tenant ${{ secrets.DIRECTORY_TENANT_ID }}  
-
-    
+        az login --service-principal -u ${{ secrets.AZURE_SP_APP_ID }} -p ${{ secrets.AZURE_SP_PASSWORD }} --tenant ${{ secrets.AZURE_SP_TENANT_ID }}
+      
     - name: Terraform Init
       run: terraform init
 
